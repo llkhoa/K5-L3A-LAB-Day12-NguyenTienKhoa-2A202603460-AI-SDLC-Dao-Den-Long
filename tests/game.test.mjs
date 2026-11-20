@@ -41,7 +41,7 @@ test("pickup includes radius boundary, excludes height and respects capacity", (
     ["night_start", "mote_picked"],
   );
 });
-test("deposit partial and held button edge; no construction events or score", () => {
+test("deposit partial and held button edge; no construction events or score (Phase 3 scoring: +5/mote, +100 lit)", () => {
   const g = game({
     player: { carried: 4 },
     lanterns: [{ id: "L1", pos: [0, 0, 0], deposited: 3 }],
@@ -50,7 +50,7 @@ test("deposit partial and held button edge; no construction events or score", ()
   assert.equal(g.events.length, 0);
   g.step({ interact: true });
   assert.equal(g.lanterns[0].deposited, 7);
-  assert.equal(g.score, 40);
+  assert.equal(g.score, 20); // 4 motes * 5 = 20
   g.player.carried = 6;
   g.step({ interact: true });
   assert.equal(g.lanterns[0].deposited, 7);
@@ -58,13 +58,13 @@ test("deposit partial and held button edge; no construction events or score", ()
   g.step({ interact: true });
   assert.equal(g.lanterns[0].lit, true);
   assert.equal(g.player.carried, 3);
-  assert.equal(g.score, 170);
+  assert.equal(g.score, 135); // 20 + 3*5 + 100 = 135
 });
-test("nearest unlit lantern wins distance/id tie and lit lantern is ignored", () => {
+test("nearest unlit lantern wins distance/id tie and full lantern is ignored", () => {
   const g = game({
     player: { carried: 10 },
     lanterns: [
-      { id: "L1", pos: [1, 0, 0], lit: true },
+      { id: "L1", pos: [1, 0, 0], lit: true, fuel: 100 },
       { id: "L2", pos: [2, 0, 0] },
       { id: "L3", pos: [-2, 0, 0] },
     ],
@@ -137,25 +137,27 @@ test("fall hits once then respawns with immunity", () => {
   assert.deepEqual(g.player.pos, [0, 0, 0]);
   assert.equal(g.player.invuln, 90);
 });
-test("winning on final tick beats dawn; no flames beats all lit", () => {
+test("winning on dawn survived with >= 60% lanterns; no flames beats dawn survived", () => {
   let g = game({
     time_left_s: 1 / 60,
     player: { carried: 10 },
     lanterns: Array.from({ length: 5 }, (_, i) => ({
       id: `L${i + 1}`,
       pos: [0, 0, 0],
-      lit: i > 0,
+      lit: i < 3, // 3/5 lit -> >= 60%
+      fuel: 100,
     })),
   });
-  g.step({ interact: true });
+  g.step();
   assert.equal(g.state, "won");
-  assert.equal(g.score, 350);
-  assert.equal(g.events.at(-1).data.reason, "all_lit");
+  assert.equal(g.events.at(-1).data.reason, "dawn_survived");
   g = game({
+    time_left_s: 1 / 60,
     player: { flames: 0 },
     lanterns: Array.from({ length: 5 }, (_, i) => ({
       id: `L${i + 1}`,
       lit: true,
+      fuel: 100,
     })),
   });
   g.step();

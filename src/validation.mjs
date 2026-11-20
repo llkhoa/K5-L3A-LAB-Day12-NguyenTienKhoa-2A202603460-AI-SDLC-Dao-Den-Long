@@ -58,12 +58,13 @@ export function validateScenario(s, night = 1) {
       "dash_cd_ticks",
       "pulse_cd_ticks",
       "charm_ticks",
+      "successful_lights",
     ])
       if (k in p)
         count(
           p[k],
           `player.${k}`,
-          k === "carried" ? 10 : k === "flames" ? 3 : Infinity,
+          k === "carried" ? 20 : k === "flames" ? 3 : Infinity,
         );
   }
   for (const k of ["motes", "shades", "lanterns", "drifters", "charms"])
@@ -101,6 +102,13 @@ export function validateScenario(s, night = 1) {
         ])
           if (key in e) count(e[key], key, key === "deposited" ? 10 : Infinity);
         if ("lit" in e) check(typeof e.lit === "boolean", "lit phải boolean");
+        if ("ever_lit" in e) check(typeof e.ever_lit === "boolean", "ever_lit phải boolean");
+        if ("fuel" in e) check(num(e.fuel) && e.fuel >= 0 && e.fuel <= 100, "fuel phải từ 0 đến 100");
+        if ("target_lantern_id" in e)
+          check(
+            typeof e.target_lantern_id === "string" || e.target_lantern_id === null,
+            "target_lantern_id không hợp lệ",
+          );
         if ("available" in e)
           check(typeof e.available === "boolean", "available phải boolean");
         if ("respawn_s" in e)
@@ -109,7 +117,7 @@ export function validateScenario(s, night = 1) {
         if ("state" in e)
           check(
             (k === "shades"
-              ? ["spawning", "wander", "chase", "recoil", "stunned"]
+              ? ["spawning", "wander", "chase", "recoil", "stunned", "drain"]
               : ["idle", "chase", "flee", "removed"]).includes(e.state),
             "state không hợp lệ",
           );

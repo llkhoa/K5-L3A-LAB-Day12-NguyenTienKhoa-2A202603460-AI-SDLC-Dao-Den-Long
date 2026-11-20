@@ -47,7 +47,7 @@ test("pause advances tick only, freezes all counters and resumes on rising edge"
   steps(g, 100);
   assert.equal(g.tick, 101);
   assert.equal(g.sim_tick, 0);
-  assert.equal(g.timeTicks, 18000);
+  assert.equal(g.timeTicks, 240 * 60);
   assert.equal(g.player.invuln, 90);
   assert.equal(g.player.charm, 600);
   assert.equal(g.motes[0].ttl, 480);
@@ -232,7 +232,7 @@ test("contract snapshot fields, scenario counters and three night definitions", 
     const s = g.snapshot();
     assert.equal(s.night, n);
     assert.equal(s.lanterns.length, n + 4);
-    assert.equal(s.time_left_s, 270 + n * 30);
+    assert.equal(s.time_left_s, 210 + n * 30);
     assert.equal(s.player.invuln, true);
     assert.equal(s.player.dash_cd_s, 1);
     assert.equal(s.player.charm_s, 10);

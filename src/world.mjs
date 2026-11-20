@@ -7,7 +7,7 @@ export function worldFor(night) {
   if (night === 1)
     return {
       name: "Đảo Bến",
-      duration: 300,
+      duration: 240,
       islands: [[0, 0, 40]],
       lanterns: [
         [0, 0, 25],
@@ -27,7 +27,7 @@ export function worldFor(night) {
   if (night === 2)
     return {
       name: "Đảo Cau",
-      duration: 330,
+      duration: 270,
       islands: [
         [0, 0, 28],
         [70, 0, 28],
@@ -61,7 +61,7 @@ export function worldFor(night) {
     };
   return {
     name: "Đảo Chuông",
-    duration: 360,
+    duration: 300,
     islands: [[0, 0, 45]],
     lanterns: [
       [0, 6, 6],
