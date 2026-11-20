@@ -1,1 +1,6 @@
-{"random_motes":false,"random_shades":false,"player":{"pos":[0,0,0],"carried":7},"lanterns":[{"id":"L1","pos":[0,0,1],"deposited":3}]}
+{
+  "random_motes": false,
+  "random_shades": false,
+  "player": { "pos": [0, 0, 0], "carried": 7 },
+  "lanterns": [{ "id": "L1", "pos": [0, 0, 1], "deposited": 3 }]
+}

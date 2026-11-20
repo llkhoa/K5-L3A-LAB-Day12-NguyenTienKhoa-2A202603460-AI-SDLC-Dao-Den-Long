@@ -1,0 +1,79 @@
+{
+  "date": "2026-11-20T08:27:22.822Z",
+  "platform": "win32",
+  "node": "v24.13.1",
+  "cpu": "AMD Ryzen 7 4800H with Radeon Graphics         ",
+  "ramGB": 23,
+  "results": [
+    {
+      "scenario": "dash",
+      "passed": true,
+      "ticks": 12,
+      "milliseconds": 80.4169,
+      "deterministic": true
+    },
+    {
+      "scenario": "pause",
+      "passed": true,
+      "ticks": 100,
+      "milliseconds": 78.52679999999998,
+      "deterministic": true
+    },
+    {
+      "scenario": "bridge",
+      "passed": true,
+      "ticks": 60,
+      "milliseconds": 79.66590000000002,
+      "deterministic": true
+    },
+    {
+      "scenario": "pad",
+      "passed": true,
+      "ticks": 86,
+      "milliseconds": 79.70010000000002,
+      "deterministic": true
+    },
+    {
+      "scenario": "terrace",
+      "passed": true,
+      "ticks": 10,
+      "milliseconds": 79.04840000000002,
+      "deterministic": true
+    },
+    {
+      "scenario": "charm",
+      "passed": true,
+      "ticks": 1,
+      "milliseconds": 78.42650000000003,
+      "deterministic": true
+    },
+    {
+      "scenario": "drifter-steal",
+      "passed": true,
+      "ticks": 1,
+      "milliseconds": 78.97339999999986,
+      "deterministic": true
+    },
+    {
+      "scenario": "drifter-drop",
+      "passed": true,
+      "ticks": 1,
+      "milliseconds": 79.29240000000004,
+      "deterministic": true
+    },
+    {
+      "scenario": "wind",
+      "passed": true,
+      "ticks": 1800,
+      "milliseconds": 91.69339999999988,
+      "deterministic": true
+    },
+    {
+      "scenario": "full-night",
+      "passed": true,
+      "ticks": 21600,
+      "milliseconds": 136.94550000000004,
+      "deterministic": true
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-20T08:25:16.715Z",
+  "viewport": "1280x720",
+  "renderer": "Chrome headless SwiftShader (software)",
+  "checks": [
+    "menu",
+    "W movement",
+    "jump",
+    "deposit and win",
+    "restart",
+    "dawn loss"
+  ],
+  "errors": [],
+  "fpsSample": 10.34648093471477,
+  "performanceNote": "software smoke sample, not native gameplay benchmark"
+}

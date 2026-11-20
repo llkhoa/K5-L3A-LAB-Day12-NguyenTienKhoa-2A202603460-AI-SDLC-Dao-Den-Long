@@ -1,0 +1,10 @@
+{
+  "date": "2026-11-20T08:27:25.196Z",
+  "node": "v24.13.1",
+  "platform": "win32",
+  "testsExit": 0,
+  "deterministic": true,
+  "sha256": "99ed7ad8c9941973c17f94a1ac673e42fbbe9c0c9a2a7da44b2e069515101f8e",
+  "hiddenTests": "not available",
+  "nativeMacLinux": "not run"
+}

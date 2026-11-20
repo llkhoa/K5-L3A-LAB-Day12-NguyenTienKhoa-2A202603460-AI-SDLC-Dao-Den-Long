@@ -1,8 +1,105 @@
 <!doctype html>
-<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0e1430"><title>Đảo Đèn Lồng · Chuyện của Mây</title><link rel="icon" href="data:,"><link rel="stylesheet" href="/style.css"><script type="importmap">{"imports":{"three":"/vendor/three.module.js"}}</script></head>
-<body><main id="game"><canvas id="world" aria-label="Đảo Đèn Lồng, thế giới 3D"></canvas>
-<div class="vignette"></div><header class="brand"><span class="brand-icon">✦</span><span>ĐẢO ĐÈN LỒNG<small>CHUYỆN CỦA MÂY</small></span><button id="pause-button" aria-label="Tạm dừng">Ⅱ</button></header>
-<div id="hud" hidden><div class="flames panel"><small>NGỌN LỬA</small><strong id="flames"></strong></div><div class="clock panel"><small id="night-name">ĐÊM 1 · ĐẢO BẾN</small><strong id="clock">05:00</strong></div><div class="progress panel"><small>ÁNH SÁNG TRỞ VỀ</small><strong id="lit">0 / 5</strong><span id="score">0 điểm</span></div><div class="carry panel"><small>ĐOM ĐÓM <b id="carried-count">0 / 10</b></small><div id="slots"></div></div><div class="abilities panel"><span><kbd>Q</kbd> Tỏa sáng <b id="pulse-cd">Sẵn sàng</b></span><span id="dash-hint" hidden><kbd>Shift</kbd> Lướt <b id="dash-cd"></b></span></div><div id="prompt" hidden></div><div id="direction"></div></div>
-<section id="overlay"><div class="intro"><span class="eyebrow">MỘT CHUYỆN NHỎ GIỮA BIỂN MÂY</span><h1>Đảo<br><em>Đèn Lồng</em></h1><p id="intro-copy">Đêm đã phủ xuống Đảo Bến.<br>Gom những đốm sáng, thắp lại đèn lồng<br>và cùng Mây đưa ánh sáng trở về.</p><div class="divider"><span>✧</span></div><button class="primary" id="play">Bắt đầu hành trình</button><button class="secondary" id="settings">Cài đặt</button><p class="intro-note">5 ngọn đèn · 1 hòn đảo · một chút can đảm</p></div><aside class="story"><span>ÔNG ĐĂNG NHẮN MÂY</span><blockquote>“Chỉ cần một ngọn đèn còn sáng,<br>con sẽ luôn tìm được đường về.”</blockquote><small>✦ ĐÊM 1 — ĐẢO BẾN</small></aside></section>
-<section id="dialog" hidden><div class="dialog-card"><span class="eyebrow" id="dialog-label">ĐẢO ĐÈN LỒNG</span><h2 id="dialog-title"></h2><p id="dialog-copy"></p><div id="settings-fields" hidden><label>Âm lượng <input id="volume" type="range" min="0" max="1" step="0.05"></label><label>Độ nhạy chuột <input id="sensitivity" type="range" min="0.2" max="2" step="0.1"></label></div><button class="primary" id="resume">Tiếp tục</button><button class="secondary" id="retry">Chơi lại Đêm</button><button class="secondary" id="dialog-settings">Cài đặt</button><button class="secondary" id="menu">Về menu</button></div></section>
-<footer><span><kbd>W A S D</kbd> Di chuyển</span><span><kbd>Space</kbd> Nhảy</span><span><kbd>E</kbd> Nạp ánh sáng</span><span><kbd>Q</kbd> Tỏa sáng</span><span>Giữ chuột & kéo để xoay camera</span></footer><div id="notice" role="status"></div></main><script type="module" src="/src/app.mjs"></script></body></html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#0e1430" />
+    <title>Đảo Đèn Lồng · Chuyện của Mây</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/style.css" />
+    <script type="importmap">
+      { "imports": { "three": "/vendor/three.module.js" } }
+    </script>
+  </head>
+  <body>
+    <main id="game">
+      <canvas id="world" aria-label="Đảo Đèn Lồng, thế giới 3D"></canvas>
+      <div class="vignette"></div>
+      <header class="brand">
+        <span class="brand-icon">✦</span
+        ><span>ĐẢO ĐÈN LỒNG<small>CHUYỆN CỦA MÂY</small></span
+        ><button id="pause-button" aria-label="Tạm dừng">Ⅱ</button>
+      </header>
+      <div id="hud" hidden>
+        <div class="flames panel">
+          <small>NGỌN LỬA</small><strong id="flames"></strong>
+        </div>
+        <div class="clock panel">
+          <small id="night-name">ĐÊM 1 · ĐẢO BẾN</small
+          ><strong id="clock">05:00</strong>
+        </div>
+        <div class="progress panel">
+          <small>ÁNH SÁNG TRỞ VỀ</small><strong id="lit">0 / 5</strong
+          ><span id="score">0 điểm</span>
+        </div>
+        <div class="carry panel">
+          <small>ĐOM ĐÓM <b id="carried-count">0 / 10</b></small>
+          <div id="slots"></div>
+        </div>
+        <div class="abilities panel">
+          <span><kbd>Q</kbd> Tỏa sáng <b id="pulse-cd">Sẵn sàng</b></span
+          ><span id="dash-hint"
+            ><kbd>Shift</kbd> Lướt <b id="dash-cd"></b
+          ></span>
+        </div>
+        <div id="prompt" hidden></div>
+        <div id="direction"></div>
+      </div>
+      <section id="overlay">
+        <div class="intro">
+          <span class="eyebrow">MỘT CHUYỆN NHỎ GIỮA BIỂN MÂY</span>
+          <h1>Đảo<br /><em>Đèn Lồng</em></h1>
+          <p id="intro-copy">
+            Đêm đã phủ xuống Đảo Bến.<br />Gom những đốm sáng, thắp lại đèn
+            lồng<br />và cùng Mây đưa ánh sáng trở về.
+          </p>
+          <div class="divider"><span>✧</span></div>
+          <button class="primary" id="play">Bắt đầu hành trình</button
+          ><button class="secondary" id="settings">Cài đặt</button>
+          <p class="intro-note">5 ngọn đèn · 1 hòn đảo · một chút can đảm</p>
+        </div>
+        <aside class="story">
+          <span>ÔNG ĐĂNG NHẮN MÂY</span>
+          <blockquote>
+            “Chỉ cần một ngọn đèn còn sáng,<br />con sẽ luôn tìm được đường về.”
+          </blockquote>
+          <small>✦ ĐÊM 1 — ĐẢO BẾN</small>
+        </aside>
+      </section>
+      <section id="dialog" hidden>
+        <div class="dialog-card">
+          <span class="eyebrow" id="dialog-label">ĐẢO ĐÈN LỒNG</span>
+          <h2 id="dialog-title"></h2>
+          <p id="dialog-copy"></p>
+          <div id="settings-fields" hidden>
+            <label
+              >Âm lượng
+              <input
+                id="volume"
+                type="range"
+                min="0"
+                max="1"
+                step="0.05" /></label
+            ><label
+              >Độ nhạy chuột
+              <input id="sensitivity" type="range" min="0.2" max="2" step="0.1"
+            /></label>
+          </div>
+          <button class="primary" id="next-night" hidden>Đêm tiếp theo</button
+          ><button class="primary" id="resume">Tiếp tục</button
+          ><button class="secondary" id="retry">Chơi lại Đêm</button
+          ><button class="secondary" id="dialog-settings">Cài đặt</button
+          ><button class="secondary" id="menu">Về menu</button>
+        </div>
+      </section>
+      <footer>
+        <span><kbd>W A S D</kbd> Di chuyển</span
+        ><span><kbd>Space</kbd> Nhảy</span><span><kbd>E</kbd> Nạp ánh sáng</span
+        ><span><kbd>Q</kbd> Tỏa sáng</span
+        ><span>Giữ chuột & kéo để xoay camera</span>
+      </footer>
+      <div id="notice" role="status"></div>
+    </main>
+    <script type="module" src="/src/app.mjs"></script>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+✔ CLI tick zero, event tick, final end and byte determinism (311.1821ms)
+✔ invalid JSON, input types/order and scenario return 2 with stderr (539.062ms)
+✔ zero ticks produces snapshot and end; invalid snapshot interval fails (169.7781ms)
+✔ 60 fixed steps move six metres, yaw and diagonal are normalized (11.0648ms)
+✔ partial input persists; held jump does not bounce again (1.2211ms)
+✔ pickup includes radius boundary, excludes height and respects capacity (2.1553ms)
+✔ deposit partial and held button edge; no construction events or score (0.822ms)
+✔ nearest unlit lantern wins distance/id tie and lit lantern is ignored (12.2839ms)
+✔ pulse pays once, stuns inside, pushes four metres and cooldown prevents retry (1.5138ms)
+✔ insufficient motes do not activate pulse (0.7435ms)
+✔ one hit per tick, floor drop ratio and invulnerability (1.861ms)
+✔ lit lantern ejects and blocks shades (2.6744ms)
+✔ fall hits once then respawns with immunity (1.0057ms)
+✔ winning on final tick beats dawn; no flames beats all lit (1.211ms)
+✔ dawn and terminal state stop simulation (1.1216ms)
+✔ seed and input reproduce generated entities; random flags suppress schedules (48.6573ms)
+✔ runtime constants match declared tuning (4.7195ms)
+✔ dash 12 steps moves 2.8m, starts cooldown and held key does not repeat (6.9894ms)
+✔ air dash holds height for all 12 dash steps (0.6581ms)
+✔ pause advances tick only, freezes all counters and resumes on rising edge (1.3383ms)
+✔ pulse uses 3D centre and does not hit high shades (19.463ms)
+✔ night2 bridge support and falling outside bridge (2.5361ms)
+✔ jump pad locks horizontal launch and lands on other island (3.364ms)
+✔ night3 floors ramps walls and tower block (1.6161ms)
+✔ night3 pad lands on centre platform (2.8176ms)
+✔ charm pickup makes run 7.2m/s, no dash cooldown, expires and respawns (31.7421ms)
+✔ drifter steals once before shade hit even while player invulnerable (7.4031ms)
+✔ drifter theft precedes floor half drop from shade (1.5849ms)
+✔ pulse repels chasing drifter, returns stolen motes while fleeing (1.713ms)
+✔ scheduled spawns and capacities, wind tick boundaries (40.0299ms)
+✔ contract snapshot fields, scenario counters and three night definitions (1.6665ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1155.475

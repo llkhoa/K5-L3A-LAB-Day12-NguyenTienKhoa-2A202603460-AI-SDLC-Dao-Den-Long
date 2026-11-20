@@ -1,0 +1,10 @@
+{
+  "seed": 42,
+  "night": 1,
+  "state": "lost",
+  "ticks": 3989,
+  "score": 420,
+  "flames": 0,
+  "lanterns": 2,
+  "method": "normal inputs only; no scenario overrides"
+}
