@@ -1,0 +1,37 @@
+[
+  {
+    scenario: 'decay',
+    passed: true,
+    ticks: 60,
+    milliseconds: 69.2183,
+    deterministic: true
+  },
+  {
+    scenario: 'refuel',
+    passed: true,
+    ticks: 10,
+    milliseconds: 66.8108,
+    deterministic: true
+  },
+  {
+    scenario: 'relight',
+    passed: true,
+    ticks: 10,
+    milliseconds: 66.6318,
+    deterministic: true
+  },
+  {
+    scenario: 'drain',
+    passed: true,
+    ticks: 60,
+    milliseconds: 67.43429999999995,
+    deterministic: true
+  },
+  {
+    scenario: 'full-night-p3',
+    passed: true,
+    ticks: 14400,
+    milliseconds: 111.85109999999997,
+    deterministic: true
+  }
+]

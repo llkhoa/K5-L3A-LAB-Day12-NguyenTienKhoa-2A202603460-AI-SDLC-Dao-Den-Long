@@ -370,13 +370,14 @@ export class Game {
   deposit() {
     const p = this.player;
     if (p.respawn || !p.carried) return;
-    // Xét đèn nhận được: chưa sáng HOẶC (sáng nhưng chưa đầy dầu: used > 0)
+    // Xét đèn nhận được: chưa sáng HOẶC (sáng nhưng chưa đầy dầu: used = min(carried, ceil((100 - fuel) / 10)) > 0)
+    // Đèn đầy dầu (used = 0, tức fuel = 100 hay ceil((100 - fuel)/10) = 0) không được chọn khi tương tác
     const validLantern = (l) => {
       if (!l.lit) return true;
-      const neededFuel = 100 - l.fuelTicks / 60;
-      if (neededFuel <= 1e-9) return false;
-      const neededMotes = Math.ceil(neededFuel / 10);
-      return Math.min(p.carried, neededMotes) > 0;
+      const currentFuel = Math.round(l.fuelTicks / 6) / 10;
+      if (currentFuel >= 100) return false;
+      const needed = Math.ceil((100 - currentFuel) / 10);
+      return Math.min(p.carried, needed) > 0;
     };
     const ls = this.lanterns
       .filter((l) => validLantern(l) && dist(l.pos, p.pos) <= T.interact_radius + 1e-9)
@@ -386,9 +387,9 @@ export class Game {
 
     if (l.lit) {
       // Châm dầu: used = min(đang mang, ceil((100 - fuel) / 10))
-      const neededFuel = 100 - l.fuelTicks / 60;
-      if (neededFuel <= 1e-9) return;
-      const neededMotes = Math.ceil(neededFuel / 10);
+      const currentFuel = Math.round(l.fuelTicks / 6) / 10;
+      if (currentFuel >= 100) return;
+      const neededMotes = Math.ceil((100 - currentFuel) / 10);
       const used = Math.min(p.carried, neededMotes);
       if (used <= 0) return;
       p.carried -= used;

@@ -54,6 +54,9 @@ const mats = {
   unlit: material("#5B5F6E"),
   lit: material("#FFB347", "#FFB347"),
   skin: material("#d9b38d"),
+  cbPurple: material("#00B3FF", "#00B3FF"),
+  fuelBarBg: new THREE.MeshBasicMaterial({ color: "#222" }),
+  fuelBarFg: new THREE.MeshBasicMaterial({ color: "#FFB347" }),
 };
 function mesh(geo, mat, pos, parent = world) {
   const m = new THREE.Mesh(geo, mat);
@@ -130,10 +133,11 @@ try {
   settings = {
     volume: 0.35,
     sensitivity: 1,
+    colorblind: false,
     ...JSON.parse(localStorage.getItem("dao-den-long-settings") ?? "{}"),
   };
 } catch {
-  settings = { volume: 0.35, sensitivity: 1 };
+  settings = { volume: 0.35, sensitivity: 1, colorblind: false };
 }
 const audio = new GameAudio(settings);
 const sound = (freq, duration) => audio.tone(freq, duration);
@@ -188,17 +192,45 @@ function lantern(l) {
   );
   zone.rotation.x = -Math.PI / 2;
   zone.visible = false;
-  g.userData = { shell, light, zone };
+
+  // Fuel bar indicator above lantern
+  const fuelBar = new THREE.Group();
+  fuelBar.position.set(0, 4.5, 0);
+  const bg = mesh(new THREE.PlaneGeometry(1.2, 0.15), mats.fuelBarBg, [0, 0, 0], fuelBar);
+  const bar = mesh(new THREE.PlaneGeometry(1.16, 0.11), mats.fuelBarFg, [0, 0, 0.01], fuelBar);
+  fuelBar.visible = false;
+  g.add(fuelBar);
+
+  g.userData = { shell, light, zone, fuelBar, bar };
   scene.add(g);
   return g;
 }
 function syncEntities(t) {
+  const isColorblind = settings.colorblind;
   for (const l of game.lanterns) {
     if (!lanternMeshes.has(l.id)) lanternMeshes.set(l.id, lantern(l));
     const g = lanternMeshes.get(l.id);
-    g.userData.shell.material = l.lit ? mats.lit : mats.unlit;
-    g.userData.light.intensity = l.lit ? 24 : 0;
-    g.userData.zone.visible = l.lit;
+    const fuel = l.lit ? l.fuelTicks / 60 : 0;
+    const isLow = l.lit && fuel < 30;
+    const blink = isLow && Math.sin(t * Math.PI * 2) < 0;
+
+    // Hiển thị & chế độ mù màu cho đèn: đèn tắt bị xẹp 20%
+    if (!l.lit) {
+      g.userData.shell.scale.set(1, 0.96, 1); // 1.2 * 0.8 = 0.96 (xẹp 20%)
+      g.userData.shell.material = mats.unlit;
+      g.userData.light.intensity = 0;
+      g.userData.zone.visible = false;
+      g.userData.fuelBar.visible = false;
+    } else {
+      g.userData.shell.scale.set(1, 1.2, 1);
+      g.userData.shell.material = blink ? mats.unlit : mats.lit;
+      g.userData.light.intensity = blink ? 6 : 24;
+      g.userData.zone.visible = fuel >= 30;
+      g.userData.fuelBar.visible = true;
+      g.userData.fuelBar.lookAt(camera.position);
+      g.userData.bar.scale.x = Math.max(0.01, fuel / 100);
+      g.userData.bar.position.x = -0.58 * (1 - fuel / 100);
+    }
   }
   for (const c of game.charms) {
     if (!charmMeshes.has(c.id)) {
@@ -303,6 +335,10 @@ function syncEntities(t) {
     );
     g.scale.setScalar(s.state === "stunned" ? 0.75 : 1);
     g.children[0].material = s.state === "stunned" ? mats.stunned : mats.dark;
+    const rimMat = isColorblind ? mats.cbPurple : mats.purple;
+    if (g.children[1]) g.children[1].material = rimMat;
+    if (g.children[2]) g.children[2].material = rimMat;
+    if (g.children[3]) g.children[3].material = rimMat;
   }
 }
 const keys = new Set(),
@@ -492,6 +528,7 @@ function showSettings() {
   $("dialog-settings").hidden = true;
   $("volume").value = settings.volume;
   $("sensitivity").value = settings.sensitivity;
+  $("colorblind").checked = !!settings.colorblind;
 }
 $("settings").onclick = showSettings;
 $("dialog-settings").onclick = showSettings;
@@ -504,6 +541,16 @@ for (const id of ["volume", "sensitivity"])
       toast("Trình duyệt không cho lưu cài đặt.");
     }
   };
+$("colorblind").onchange = (e) => {
+  settings.colorblind = e.target.checked;
+  document.body.classList.toggle("colorblind-mode", settings.colorblind);
+  try {
+    localStorage.setItem("dao-den-long-settings", JSON.stringify(settings));
+  } catch {
+    toast("Trình duyệt không cho lưu cài đặt.");
+  }
+};
+document.body.classList.toggle("colorblind-mode", !!settings.colorblind);
 function hud() {
   const p = game.player;
   $("flames").textContent =
@@ -517,13 +564,14 @@ function hud() {
   $("lit").textContent =
     `${game.lanterns.filter((l) => l.lit).length} / ${game.lanterns.length}`;
   $("score").textContent = `${game.score} điểm`;
-  $("carried-count").textContent = `${p.carried} / 10`;
-  if ($("slots").dataset.count !== String(p.carried)) {
+  const cap = game.capacity;
+  $("carried-count").textContent = `${p.carried} / ${cap}`;
+  if ($("slots").dataset.count !== `${p.carried}/${cap}`) {
     $("slots").innerHTML = Array.from(
-      { length: 10 },
+      { length: cap },
       (_, i) => `<i class="${i < p.carried ? "full" : ""}"></i>`,
     ).join("");
-    $("slots").dataset.count = String(p.carried);
+    $("slots").dataset.count = `${p.carried}/${cap}`;
   }
   $("pulse-cd").textContent =
     p.pulseCD > 0 ? `${(p.pulseCD / 60).toFixed(1)}s` : "3 đom đóm";
@@ -533,23 +581,39 @@ function hud() {
       : p.dashCD > 0
         ? `${(p.dashCD / 60).toFixed(1)}s`
         : "Sẵn sàng";
+  const validLantern = (l) => {
+    if (!l.lit) return true;
+    const currentFuel = Math.round(l.fuelTicks / 6) / 10;
+    return currentFuel < 100;
+  };
   const near = game.lanterns
+    .filter((l) => validLantern(l) && dist(l.pos, p.pos) <= 2)
+    .sort((a, b) => dist(a.pos, p.pos) - dist(b.pos, p.pos))[0];
+  $("prompt").hidden = !near;
+  if (near) {
+    if (near.lit) {
+      const fuel = Math.round(near.fuelTicks / 6) / 10;
+      $("prompt").textContent = `E — Châm dầu (Dầu: ${Math.round(fuel)}/100)`;
+    } else {
+      const cost = near.ever_lit ? 5 : 10;
+      $("prompt").textContent = `E — ${near.ever_lit ? "Thắp lại" : "Nạp ánh sáng"} (${near.deposited}/${cost})`;
+    }
+  }
+  const unlitNear = game.lanterns
     .filter((l) => !l.lit)
     .sort((a, b) => dist(a.pos, p.pos) - dist(b.pos, p.pos))[0];
-  $("prompt").hidden = !near || dist(near.pos, p.pos) > 2;
-  if (near) {
-    $("prompt").textContent = `E — Nạp ánh sáng (${near.deposited}/10)`;
-    const projected = new THREE.Vector3(...near.pos)
+  if (unlitNear) {
+    const projected = new THREE.Vector3(...unlitNear.pos)
       .add(new THREE.Vector3(0, 3, 0))
       .project(camera);
     const off =
       Math.abs(projected.x) > 1 || Math.abs(projected.y) > 1 || projected.z > 1;
     const angle =
-      Math.atan2(near.pos[0] - p.pos[0], near.pos[2] - p.pos[2]) - yaw;
+      Math.atan2(unlitNear.pos[0] - p.pos[0], unlitNear.pos[2] - p.pos[2]) - yaw;
     const arrows = ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"];
     const arrow = arrows[((Math.round(angle / (Math.PI / 4)) % 8) + 8) % 8];
     $("direction").textContent =
-      `${off ? arrow + " " : ""}${near.id} · ${Math.round(dist(near.pos, p.pos))} m`;
+      `${off ? arrow + " " : ""}${unlitNear.id} · ${Math.round(dist(unlitNear.pos, p.pos))} m`;
   } else $("direction").textContent = "";
 }
 function frame(now) {

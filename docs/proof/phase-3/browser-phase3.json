@@ -1,0 +1,13 @@
+{
+  "date": "2026-11-20T09:39:14.882Z",
+  "viewport": "1280x720",
+  "browser": "157.0.8103.80",
+  "checks": [
+    "colorblind settings persisted",
+    "colorblind UI and shade rim",
+    "fuel decay and refuel HUD",
+    "win by dawn_survived at >=60% lit lanterns",
+    "dawn screen"
+  ],
+  "errors": []
+}

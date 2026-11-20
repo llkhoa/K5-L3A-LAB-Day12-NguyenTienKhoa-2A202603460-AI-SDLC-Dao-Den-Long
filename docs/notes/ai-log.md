@@ -19,3 +19,15 @@
 - Chạy toàn bộ suite 31 tests (17 hồi quy Phase 1, 14 test Phase 2) đạt 100% không lỗi.
 - Kiểm chứng headless 21.600 tick trong ~128ms (< 30s), browser đạt ~144 FPS trên D3D11.
 - Lưu trữ đầy đủ snapshot, scenario proofs và hình ảnh minh chứng trong `docs/proof/phase-2/`.
+
+## 20/11/2026 — Phase 3 Change Request "Đèn cạn dầu"
+
+- Nhận Ticket-03 (Change Request), phân tích tác động và lập kế hoạch kiểm chứng tại `docs/notes/phase-3-plan.md`.
+- Tạo Architecture Decision Record (ADR 001) tại `docs/notes/adr-phase-3.md` và `CHANGELOG.md` ghi nhận các breaking changes.
+- Nâng cấp `game.contract.json` lên v1.2 với đầy đủ tuning tham số mới.
+- Triển khai cơ chế nhiên liệu đèn (hao 1.0/s, tắt khi hết dầu, châm dầu refuel, thắp lại tốn 5 đom đóm).
+- Triển khai Bóng Mực hút dầu (`drain`), mất vùng an toàn khi fuel < 30, cơ chế đẩy lùi khi châm dầu lại.
+- Triển khai luật thắng mới theo ngưỡng $\ge 60\%$ đèn sáng tại Bình Minh (`dawn_survived`).
+- Triển khai sức chứa đom đóm tăng dần (tối đa 20) và chế độ mù màu (Colorblind mode).
+- Cập nhật test suite cũ, bổ sung `tests/phase3.test.mjs`, tổng 38/38 tests pass.
+- Chạy kiểm chứng `verify` và browser headless Chromium, thu thập bằng chứng đầy đủ tại `docs/proof/phase-3/`.

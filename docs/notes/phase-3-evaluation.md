@@ -1,0 +1,26 @@
+# Đánh giá Phase 3 (Ticket-03 — "Đèn cạn dầu")
+
+- **Bộ kiểm thử tự động**:
+  - Đạt **38/38 test tự động** trên Node.js v24.13.1 (Windows), bao gồm toàn bộ kiểm thử hồi quy Phase 1 & 2 và các test mới kiểm chứng cơ chế Phase 3 (`tests/phase3.test.mjs`).
+  - Chi tiết log chạy test trong `docs/proof/phase-3/tests.txt`.
+- **Cơ chế dầu đèn & phản ứng Bóng Mực**:
+  - Đèn hao hụt 1.0 fuel/s. Khi fuel $\le 0$, đèn tự động tắt, reset deposited và phát sự kiện `lantern_out`.
+  - Châm dầu (refuel) bù đắp phần thiếu, tiêu hao đúng tỉ lệ `ceil((100 - fuel) / 10)` và phát sự kiện `refuel`.
+  - Thắp lại đèn đã từng sáng (`ever_lit`) chỉ tốn 5 đom đóm (+40 điểm) thay vì 10 đom đóm.
+  - Bóng Mực `wander` tìm đèn sáng có fuel < 30 gần nhất, tiếp cận $\le 2$m chuyển trạng thái `drain`, hút 5 fuel/s và phát sự kiện `fuel_drain` mỗi 60 tick.
+  - Tỏa Sáng trúng bóng đang `drain` được thưởng 15 điểm.
+  - Sức chứa người chơi (carry capacity) tăng tiến `10 + 2 * successful_lights`, tối đa 20.
+- **Luật thắng mới**:
+  - Loại bỏ kết thúc sớm `all_lit`.
+  - Game chỉ kết thúc khi hết giờ (Bình Minh) và thắng (`dawn_survived`) khi số đèn sáng $\ge \lceil 0.6 \times \text{tổng đèn} \rceil$.
+- **Chế độ mù màu**:
+  - Tùy chọn "Bảng màu dễ phân biệt" trong phần Cài đặt được lưu vào `localStorage`.
+  - Đổi màu viền & mắt Bóng Mực sang `#00B3FF`, cảnh báo nguy hiểm kèm biểu tượng ⚠.
+  - Đèn tắt bị xẹp 20% chiều cao để phân biệt rõ ràng mà không cần dựa vào màu sắc. Đèn sắp hết dầu nhấp nháy 1 Hz.
+- **Headless & Determinism**:
+  - Kiểm tra 5 scenario Phase 3 (`decay`, `refuel`, `relight`, `drain`, `full-night-p3`), kết quả tất định 100% giữa hai lần chạy lặp lại (`docs/proof/phase-3/scenarios.json`).
+  - Một đêm đầy đủ 14.400 ticks chạy hoàn tất trong ~112 ms trên runner headless.
+- **Tài liệu & Tuân thủ quy trình**:
+  - Ghi nhận quyết định thiết kế tại `docs/notes/adr-phase-3.md`.
+  - Ghi nhận breaking changes tại `CHANGELOG.md`.
+  - Cập nhật Contract v1.2 trong `game.contract.json`.

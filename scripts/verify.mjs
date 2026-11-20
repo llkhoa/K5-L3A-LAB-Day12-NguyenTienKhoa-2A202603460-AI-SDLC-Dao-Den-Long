@@ -4,7 +4,9 @@ import { createHash } from "node:crypto";
 const phase =
   JSON.parse(readFileSync("game.contract.json")).contract_version === "1.0"
     ? "phase-1"
-    : "phase-2";
+    : JSON.parse(readFileSync("game.contract.json")).contract_version === "1.1"
+      ? "phase-2"
+      : "phase-3";
 const root = `docs/proof/${phase}`;
 mkdirSync(root, { recursive: true });
 const test = spawnSync(
@@ -14,6 +16,7 @@ const test = spawnSync(
     "tests/cli.test.mjs",
     "tests/game.test.mjs",
     "tests/phase2.test.mjs",
+    "tests/phase3.test.mjs",
   ],
   { encoding: "utf8" },
 );
@@ -25,6 +28,13 @@ if (test.status !== 0) {
 }
 if (phase === "phase-2") {
   const scenarios = spawnSync(process.execPath, ["scripts/phase2-evidence.mjs"], {encoding:"utf8"});
+  writeFileSync(`${root}/scenario-run.txt`, scenarios.stdout + scenarios.stderr);
+  if (scenarios.status !== 0) {
+    writeFileSync(`${root}/verification.json`, JSON.stringify({date:new Date().toISOString(),testsExit:0,scenariosExit:scenarios.status??1,passed:false},null,2)+'\n');
+    console.error(scenarios.stderr);process.exit(scenarios.status??1);
+  }
+} else if (phase === "phase-3") {
+  const scenarios = spawnSync(process.execPath, ["scripts/phase3-evidence.mjs"], {encoding:"utf8"});
   writeFileSync(`${root}/scenario-run.txt`, scenarios.stdout + scenarios.stderr);
   if (scenarios.status !== 0) {
     writeFileSync(`${root}/verification.json`, JSON.stringify({date:new Date().toISOString(),testsExit:0,scenariosExit:scenarios.status??1,passed:false},null,2)+'\n');

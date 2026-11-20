@@ -1,0 +1,46 @@
+✔ CLI tick zero, event tick, final end and byte determinism (160.3641ms)
+✔ invalid JSON, input types/order and scenario return 2 with stderr (315.5723ms)
+✔ zero ticks produces snapshot and end; invalid snapshot interval fails (122.6662ms)
+✔ 60 fixed steps move six metres, yaw and diagonal are normalized (6.5741ms)
+✔ partial input persists; held jump does not bounce again (0.715ms)
+✔ pickup includes radius boundary, excludes height and respects capacity (1.1965ms)
+✔ deposit partial and held button edge; no construction events or score (Phase 3 scoring: +5/mote, +100 lit) (0.7119ms)
+✔ nearest unlit lantern wins distance/id tie and full lantern is ignored (11.2209ms)
+✔ pulse pays once, stuns inside, pushes four metres and cooldown prevents retry (1.2222ms)
+✔ insufficient motes do not activate pulse (0.3768ms)
+✔ one hit per tick, floor drop ratio and invulnerability (1.1016ms)
+✔ lit lantern ejects and blocks shades (1.9312ms)
+✔ fall hits once then respawns with immunity (0.6285ms)
+✔ winning on dawn survived with >= 60% lanterns; no flames beats dawn survived (0.7335ms)
+✔ dawn and terminal state stop simulation (0.4785ms)
+✔ seed and input reproduce generated entities; random flags suppress schedules (21.5002ms)
+✔ runtime constants match declared tuning (1.3285ms)
+✔ dash 12 steps moves 2.8m, starts cooldown and held key does not repeat (4.4262ms)
+✔ air dash holds height for all 12 dash steps (0.4194ms)
+✔ pause advances tick only, freezes all counters and resumes on rising edge (0.7034ms)
+✔ pulse uses 3D centre and does not hit high shades (12.3312ms)
+✔ night2 bridge support and falling outside bridge (1.0994ms)
+✔ jump pad locks horizontal launch and lands on other island (1.0699ms)
+✔ night3 floors ramps walls and tower block (0.8191ms)
+✔ night3 pad lands on centre platform (1.058ms)
+✔ charm pickup makes run 7.2m/s, no dash cooldown, expires and respawns (14.8797ms)
+✔ drifter steals once before shade hit even while player invulnerable (3.3042ms)
+✔ drifter theft precedes floor half drop from shade (0.509ms)
+✔ pulse repels chasing drifter, returns stolen motes while fleeing (0.5945ms)
+✔ scheduled spawns and capacities, wind tick boundaries (18.0741ms)
+✔ contract snapshot fields, scenario counters and three night definitions (0.9835ms)
+✔ fuel decays naturally 1.0/s and lantern goes out when fuel reaches 0 (4.2562ms)
+✔ refueling partially fills lantern and clamps at 100 fuel (0.8177ms)
+✔ relighting an ever_lit lantern only costs 5 motes and awards 40 points (0.4713ms)
+✔ shades enter drain state at weak lantern (fuel < 30) and emit fuel_drain (2.1063ms)
+✔ pulse on draining shade awards 15 points instead of 5 (0.8298ms)
+✔ player capacity scales with successful_lights up to 20 (0.6488ms)
+✔ night end evaluation requires ceil(0.6 * lanterns) lit lanterns (0.691ms)
+ℹ tests 38
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 698.5313

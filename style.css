@@ -252,6 +252,24 @@ kbd {
   color: #ff5a5f;
   animation: blink 1s infinite;
 }
+body.colorblind-mode .clock.danger {
+  color: #ffffff;
+}
+body.colorblind-mode .clock.danger strong::before {
+  content: "⚠ ";
+}
+.checkbox-label {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.checkbox-label input {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+}
 .progress {
   right: 32px;
   top: 28px;
