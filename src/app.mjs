@@ -311,8 +311,8 @@ function input() {
   const pressed = (code) => keys.has(code) || queued.has(code);
   const result = {
     move: [
-      Number(keys.has("KeyD") || keys.has("ArrowRight")) -
-        Number(keys.has("KeyA") || keys.has("ArrowLeft")),
+      Number(keys.has("KeyA") || keys.has("ArrowLeft")) -
+        Number(keys.has("KeyD") || keys.has("ArrowRight")),
       Number(keys.has("KeyW") || keys.has("ArrowUp")) -
         Number(keys.has("KeyS") || keys.has("ArrowDown")),
     ],
