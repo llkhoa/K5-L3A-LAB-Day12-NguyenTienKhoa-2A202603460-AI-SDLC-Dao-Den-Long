@@ -26,5 +26,7 @@
 
 ## Trạng thái bàn giao
 
-CP0: mới hoàn thành một phần. CP1–CP5: chưa thực hiện.
-Chưa có tag phase, repo cá nhân, Release hoặc video; chưa có kết quả kiểm chứng sản phẩm.
+CP0: Đã hoàn thành (cấu hình môi trường, tài liệu, quy ước).
+CP1 (Phase 1): Đã hoàn thành, tag `phase-1` đã tạo.
+CP2 (Phase 2): Đã hoàn thành triển khai toàn bộ tính năng Ticket-02 (3 Đêm, lướt, tạm dừng, Gió Lạc, Bùa Gió, bục nhảy, Contract v1.1). 31/31 test pass, hiệu năng headless ~128ms/21600 tick, browser ~144 FPS.
+Đang chờ: Gắn tag `phase-2` và tiếp nhận thông tin Phase 3 khi phát hành.
