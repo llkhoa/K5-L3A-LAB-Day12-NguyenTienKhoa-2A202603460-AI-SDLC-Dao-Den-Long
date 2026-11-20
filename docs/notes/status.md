@@ -13,8 +13,7 @@
 
 1. PRD-0 và Test Contract từ tab Phase 1 của lab board.
 2. Các ticket Phase 2–4 khi đã được phát hành.
-3. Họ tên không dấu, MSSV, lớp L3A/L3B để đặt tên repo cá nhân.
-4. Mốc giờ bắt đầu và hạn do Coach thông báo.
+3. Mốc giờ bắt đầu và hạn do Coach thông báo.
 
 ## Trình tự triển khai sau khi nhận yêu cầu
 
