@@ -1,3 +1,37 @@
+# Đảo Đèn Lồng — bản thực hành
+
+**Video demo:** chưa quay; chưa có Release công khai. Đây là bản đang triển khai theo các phase đã phát hành.
+
+Game 3D điều khiển Mây thu đom đóm và thắp 5 đèn lồng trên Đảo Bến. Mã nguồn và CLI dùng cùng mô phỏng 60 tick/giây. Yêu cầu Node.js >=22, Chrome/Edge/Firefox có WebGL.
+
+```bash
+npm ci
+npm run build
+npm start
+```
+
+Mở http://127.0.0.1:5173. Bản tĩnh nằm ở `dist/`, có thể phục vụ bằng HTTP trên macOS/Linux. Kiểm chứng tại máy hiện tại là Windows; CI Ubuntu đã cấu hình nhưng chưa chạy trên GitHub.
+
+**Điều khiển:** WASD/mũi tên di chuyển, Space nhảy, E nạp đèn, Q tỏa sáng, kéo chuột xoay camera, Esc tạm nghỉ. Nút chơi lại có ở kết quả.
+
+**Điểm:** 10 mỗi đom đóm nạp, 100 mỗi đèn thắp, 5 mỗi bóng trúng tỏa sáng; thắng cộng floor(giây còn)*2 + 50*ngọn lửa còn. Nhặt đơn thuần không cộng điểm.
+
+```bash
+npm run verify
+node src/headless.mjs --seed 42 --night 1 --ticks 600 --out output.jsonl
+node src/headless.mjs --seed 42 --night 1 --scenario tests/scenarios/deposit.json --inputs tests/scenarios/deposit-inputs.json --ticks 120 --out output.jsonl
+```
+
+`npm run test:browser` chạy Chrome smoke test khi server đang mở. Bằng chứng: [Phase 1](docs/proof/phase-1/verification.json), [browser](docs/proof/phase-1/browser.json). Kế hoạch/giả định: [phase-1-plan](docs/notes/phase-1-plan.md). [Tiến độ và giới hạn](docs/notes/status.md).
+
+### Sáng tạo của tôi
+
+Mây có nón lá, khăn đỏ và đèn nhỏ; menu dẫn chuyện qua lời Ông Đăng, biển mây và vòng sáng khi dùng Q. Toàn bộ mô hình sinh bằng hình học, các chi tiết này không tham gia logic headless. Kết quả kiểm tra tất định được lưu trong bằng chứng Phase 1.
+
+---
+
+# Tài liệu đề bài gốc (giữ nguyên bên dưới)
+
 # Day 12 — AI SDLC: Đảo Đèn Lồng
 
 > **Cá nhân** (1 người / 1 MSSV) · Áp dụng SDLC cùng AI để xây một **game 3D** qua **4 phase**, từ yêu cầu ban đầu tới bản phát hành.

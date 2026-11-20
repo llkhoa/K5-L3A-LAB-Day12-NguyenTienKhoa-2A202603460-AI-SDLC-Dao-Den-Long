@@ -1,0 +1,25 @@
+✔ CLI tick zero, event tick, final end and byte determinism (164.4488ms)
+✔ invalid JSON, input types/order and scenario return 2 with stderr (322.4903ms)
+✔ zero ticks produces snapshot and end; invalid snapshot interval fails (124.4966ms)
+✔ 60 fixed steps move six metres, yaw and diagonal are normalized (4.6763ms)
+✔ partial input persists; held jump does not bounce again (2.3811ms)
+✔ pickup includes radius boundary, excludes height and respects capacity (1.2684ms)
+✔ deposit partial and held button edge; no construction events or score (0.4562ms)
+✔ nearest unlit lantern wins distance/id tie and lit lantern is ignored (11.2066ms)
+✔ pulse pays once, stuns inside, pushes four metres and cooldown prevents retry (1.0958ms)
+✔ insufficient motes do not activate pulse (0.4541ms)
+✔ one hit per tick, floor drop ratio and invulnerability (0.7989ms)
+✔ lit lantern ejects and blocks shades (0.923ms)
+✔ fall hits once then respawns with immunity (0.6536ms)
+✔ winning on final tick beats dawn; no flames beats all lit (0.7967ms)
+✔ dawn and terminal state stop simulation (0.2832ms)
+✔ seed and input reproduce generated entities; random flags suppress schedules (13.1945ms)
+✔ runtime constants match declared tuning (2.1382ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 715.7566
